@@ -1,4 +1,10 @@
 package es.ucm.gdv.engine;
 
-public class Engine {
+public interface Engine {
+    void init();
+    void close();
+
+    Graphics getGraphics();
+    //Input getInput();
+    //InputStream openInputStream(filename);
 }
