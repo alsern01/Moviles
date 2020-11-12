@@ -1,0 +1,7 @@
+include ':engine'
+include ':input'
+include ':graphics'
+include ':font'
+include ':pcprogram'
+include ':app'
+rootProject.name = "Offthe line"
