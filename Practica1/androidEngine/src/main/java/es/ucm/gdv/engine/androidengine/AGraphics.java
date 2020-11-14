@@ -1,4 +1,4 @@
-package es.ucm.gdv.androidengine;
+package es.ucm.gdv.engine.androidengine;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -19,6 +19,16 @@ public class AGraphics implements es.ucm.gdv.engine.Graphics {
     @Override
     public void translate(int x, int y) {
         c_.translate(x, y);
+    }
+
+    @Override
+    public void scale(float x, float y) {
+
+    }
+
+    @Override
+    public void rotate(float angle) {
+
     }
 
     @Override

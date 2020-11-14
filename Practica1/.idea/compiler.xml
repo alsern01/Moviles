@@ -4,6 +4,7 @@
     <bytecodeTargetLevel>
       <module name="application" target="1.7" />
       <module name="desktopEngine" target="1.7" />
+      <module name="desktopGame" target="1.7" />
       <module name="engine" target="1.7" />
       <module name="font" target="1.7" />
       <module name="graphics" target="1.7" />

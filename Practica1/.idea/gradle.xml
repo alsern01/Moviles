@@ -14,9 +14,9 @@
             <option value="$PROJECT_DIR$/androidEngine" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/desktopEngine" />
+            <option value="$PROJECT_DIR$/desktopGame" />
             <option value="$PROJECT_DIR$/engine" />
             <option value="$PROJECT_DIR$/offTheLineLogic" />
-            <option value="$PROJECT_DIR$/pcprogram" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

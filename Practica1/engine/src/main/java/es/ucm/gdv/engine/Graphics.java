@@ -18,6 +18,10 @@ public interface Graphics {
      **/
     public void translate(int x, int y);
 
+    public void scale(float x, float y);
+
+    public void rotate(float angle);
+
     public void setColor(int a, int r, int g, int b);
 
     public void drawLine(int x1, int y1, int x2, int y2);
