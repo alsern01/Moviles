@@ -1,6 +1,4 @@
-package es.ucm.gdv.offtheline;
-
-import androidx.appcompat.app.AppCompatActivity;
+package es.ucm.gdv.app.android;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -9,6 +7,8 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Prueba de concepto de renderizado activo en Android.

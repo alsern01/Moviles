@@ -1,4 +1,4 @@
-include ':desktopGame'
+include ':desktopApp'
 include ':androidEngine'
 include ':offTheLineLogic'
 include ':desktopEngine'

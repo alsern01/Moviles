@@ -4,14 +4,46 @@ import java.awt.Color;
 
 import javax.swing.JFrame;
 
-public class Graphics implements es.ucm.gdv.engine.Graphics {
 
+/**
+ * Extiende la clase AbstractGraphics del motor. Implementa los metodos de
+ * pintado exclusivos en PC
+ * <p>
+ * Se apoya en la funcionalidad que ofrece JFrame (ventana) y java.awt para
+ * el apartado grafico
+ */
+
+public class Graphics extends es.ucm.gdv.engine.AbstractGraphics {
+    /**
+     * Constructora
+     *
+     * @param window recibe una ventana de JFrame sobre la que pintar
+     */
     public Graphics(JFrame window) {
         _window = window;
     }
 
+    /**
+     * Asigna un contexto gráfico
+     *
+     * @param g contexto gráfico
+     */
     public void setGraphics(java.awt.Graphics g) {
-        _g = g;
+        _g = (java.awt.Graphics2D) g;
+    }
+
+    @Override
+    public Font newFont(String filename, int size, boolean isBold) {
+        Font font = new Font(filename, size, isBold);
+
+        return font;
+    }
+
+    @Override
+    public boolean init() {
+        if (_window != null)
+            return true;
+        else return false;
     }
 
     @Override
@@ -32,18 +64,23 @@ public class Graphics implements es.ucm.gdv.engine.Graphics {
 
     @Override
     public void scale(float x, float y) {
-
+        _g.scale(x, y);
     }
 
     @Override
     public void rotate(float angle) {
+        _g.rotate(angle);
+    }
+
+    @Override
+    public void save() {
 
     }
 
-    /*@Override
-    public void setFont(Font font) {
+    @Override
+    public void restore() {
 
-    }*/
+    }
 
     @Override
     public void drawLine(int x1, int y1, int x2, int y2) {
@@ -57,6 +94,12 @@ public class Graphics implements es.ucm.gdv.engine.Graphics {
 
     @Override
     public void drawText(String text, int x, int y) {
+        logicToPhysic(x, y);
+        //scale(x, y);
+
+        _font = newFont("assets/Fuentes/Bangers-Regular.ttf", 40, true);
+        _g.setFont(_font.getFont());
+
         _g.drawString(text, x, y);
     }
 
@@ -70,6 +113,7 @@ public class Graphics implements es.ucm.gdv.engine.Graphics {
         return _window.getHeight();
     }
 
-    private java.awt.Graphics _g;
+    private java.awt.Graphics2D _g;
     private JFrame _window;
+    private Font _font;
 }
