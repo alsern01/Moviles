@@ -16,7 +16,7 @@ public class MyJsonReader {
         _jsonParser = new JSONParser();
     }
 
-    public void parseLevel(int nLevel) {
+    public void parseLevel(int nLevel, LoadLevel lv) {
         try {
             InputStream is = _engine.openInputStream("levels.json"); // con el API correcto
             Object o = _jsonParser.parse(new InputStreamReader(is));
@@ -31,12 +31,15 @@ public class MyJsonReader {
 
             // Se leen cada una de las partes del objeto
             String name = (String) level.get("name");
+            lv.setName(name);
 
             JSONArray paths = (JSONArray) level.get("paths");
             if (paths != null) {
                 for (int i = 0; i < paths.size(); i++) {
                     // coge posicion i del array de objetos
                     JSONObject actualPath = (JSONObject) paths.get(i);
+                    lv.getPaths().add(new Path());
+
                     // cada path tiene vertices y puede tener direcciones (arrays)
                     JSONArray verts = (JSONArray) actualPath.get("vertices");
                     JSONArray dirs = (JSONArray) actualPath.get("directions");
@@ -47,17 +50,17 @@ public class MyJsonReader {
                         float x = (float) actualVert.get("x");
                         float y = (float) actualVert.get("y");
 
-                        //pushear al nivel
+                        lv.getPaths().get(i).pushVertice(x, y);
                     }
 
                     if (dirs != null) {
                         for (int k = 0; k < dirs.size(); k++) {
                             JSONObject actualDir = (JSONObject) dirs.get(k);
 
-                            float x = (float) actualDir.get("x");
-                            float y = (float) actualDir.get("y");
+                            int x = (int) actualDir.get("x");
+                            int y = (int) actualDir.get("y");
 
-                            //pushear al nivel
+                            lv.getPaths().get(i).pushDirection(x, y);
                         }
                     }
                 }
@@ -73,7 +76,7 @@ public class MyJsonReader {
                     float speed = (float) actualItem.get("speed");
                     float angle = (float) actualItem.get("angle");
 
-                    //pushear al nivel
+                    lv.getItems().add(new Item(x, y, radius, speed, angle));
                 }
             }
 
@@ -84,10 +87,10 @@ public class MyJsonReader {
 
                     float x = (float) actualEnemy.get("x");
                     float y = (float) actualEnemy.get("y");
-                    float radius = (float) actualEnemy.get("length");
+                    float length = (float) actualEnemy.get("length");
                     float angle = (float) actualEnemy.get("angle");
 
-                    float speed, time1, time2, offX, offY;
+                    float speed = 0, time1 = 0, time2 = 0, offX = 0, offY = 0;
 
                     if (actualEnemy.get("speed") != null)
                         speed = (float) actualEnemy.get("speed");
@@ -105,13 +108,13 @@ public class MyJsonReader {
                         offY = (float) offset.get("y");
                     }
 
-                    // pushear al nivel
+                    lv.getEnemies().add(new Enemy(x, y, length, angle, speed, time1, time2, offX, offY));
                 }
             }
 
             int time = (int) level.get("time");
             if (time > 0) {
-                // pushear al nivel
+                lv.setTime(time);
             }
 
             is.close();

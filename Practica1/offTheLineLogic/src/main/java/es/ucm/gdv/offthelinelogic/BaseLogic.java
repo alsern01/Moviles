@@ -8,6 +8,10 @@ public class BaseLogic implements es.ucm.gdv.engine.Logic {
     @Override
     public boolean init(Engine app) {
         _app = app;
+        _lvlLoader = new LoadLevel(app, 1);
+
+        System.out.println(_lvlLoader.getName());
+
         _graphics = _app.getGraphics();
         _input = _app.getInput();
         _graphics.calculateCanvasSize();
@@ -59,6 +63,9 @@ public class BaseLogic implements es.ucm.gdv.engine.Logic {
     // Gestores para ahorrar llamadas a la aplicacion
     private Graphics _graphics;
     private Input _input;
+
+    // Cargador de niveles
+    private LoadLevel _lvlLoader;
 
     /**
      * Posición x actual del texto (lado izquierdo). Es importante
