@@ -3,11 +3,12 @@ package es.ucm.gdv.engine.desktopengine;
 /*estos hacen falta de momento para que no explote*/
 
 import java.awt.image.BufferStrategy;
+import java.io.FileInputStream;
+import java.io.InputStream;
 
 import javax.swing.JFrame;
 
 import es.ucm.gdv.engine.Input;
-import es.ucm.gdv.engine.InputStream;
 import es.ucm.gdv.engine.Logic;
 
 public class Engine implements es.ucm.gdv.engine.Engine {
@@ -100,13 +101,13 @@ public class Engine implements es.ucm.gdv.engine.Engine {
             _logic.update(elapsedTime);
 
             // Informe de FPS
-            //if (currentTime - informePrevio > 1000000000l) {
-            //    long fps = frames * 1000000000l / (currentTime - informePrevio);
-            //   System.out.println("" + fps + " fps");
-            //   frames = 0;
-            //    informePrevio = currentTime;
-            //}
-            //++frames;
+            if (currentTime - informePrevio > 1000000000l) {
+                long fps = frames * 1000000000l / (currentTime - informePrevio);
+                System.out.println("" + fps + " fps");
+                frames = 0;
+                informePrevio = currentTime;
+            }
+            ++frames;
 
             // Pintamos el frame con el BufferStrategy
             do {
@@ -144,6 +145,12 @@ public class Engine implements es.ucm.gdv.engine.Engine {
 
     @Override
     public InputStream openInputStream(String filename) {
+        try {
+            _inputStream = new FileInputStream("assets/" + filename);
+        } catch (Exception e) {
+            System.err.println("Error cargando el fichero: " + e);
+            return null;
+        }
         return _inputStream;
     }
 

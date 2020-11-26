@@ -1,6 +1,7 @@
 package es.ucm.gdv.engine.desktopengine;
 
 import java.awt.Color;
+import java.awt.geom.AffineTransform;
 
 import javax.swing.JFrame;
 
@@ -74,12 +75,12 @@ public class Graphics extends es.ucm.gdv.engine.AbstractGraphics {
 
     @Override
     public void save() {
-
+        _copy = _g.getTransform();
     }
 
     @Override
     public void restore() {
-
+        _g.setTransform(_copy);
     }
 
     @Override
@@ -94,9 +95,6 @@ public class Graphics extends es.ucm.gdv.engine.AbstractGraphics {
 
     @Override
     public void drawText(String text, int x, int y) {
-        logicToPhysic(x, y);
-        //scale(x, y);
-
         _font = newFont("assets/Fuentes/Bangers-Regular.ttf", 40, true);
         _g.setFont(_font.getFont());
 
@@ -116,4 +114,5 @@ public class Graphics extends es.ucm.gdv.engine.AbstractGraphics {
     private java.awt.Graphics2D _g;
     private JFrame _window;
     private Font _font;
+    private AffineTransform _copy;
 }

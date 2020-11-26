@@ -1,5 +1,8 @@
 package es.ucm.gdv.engine;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 /**
  * Interfaz que gestiona el bucle principal de la aplicación y los
  * módulos que integran el motor
@@ -36,5 +39,5 @@ public interface Engine {
     /**
      * Abre un archivo con el nombre indicado
      */
-    InputStream openInputStream(String filename);
+    InputStream openInputStream(String filename) throws IOException;
 }

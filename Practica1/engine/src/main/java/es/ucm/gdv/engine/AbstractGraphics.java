@@ -13,93 +13,90 @@ package es.ucm.gdv.engine;
 
 public abstract class AbstractGraphics implements Graphics {
 
-    /**
-     * Calcula el ancho y el alto actual de la ventana
-     */
-    private void actualWindowSize() {
-        _winWidth = getWidth();
-        _winHeight = getHeight();
-    }
+    @Override
+    public void calculateCanvasSize() {
+        int winWidth = getWidth();
+        int winHeight = getHeight();
 
-    /**
-     * Calcula el ancho y alto del canvas a partir del tamaño actual de la ventana,
-     * busca maximizar ese área
-     */
-    private void calculateCanvas() {
-        // Comprobamos el aspect ratio actual de la ventana
-        double actualRatio = (double) _winWidth / (double) _winHeight;
-        // Si es mayor o igual que el ratio logico
-        if (actualRatio > _ratio) {
-            // quiere decir que o el ancho aumenta o la altura disminuye, en cualquier caso
-            // solo hace falta reescalar el alto
-            _canvasHeight = (int) ((double) _winWidth * _logicHeight / _logicWidth);
-            _canvasWidth = _logicWidth;
-        } else if (actualRatio == _ratio) {
-            _canvasWidth = _logicWidth;
-            _canvasHeight = _logicHeight;
+        float logicRatio = (float) _logicWidth / (float) _logicHeight;
+        float realRatio = (float) winWidth / (float) winHeight;
+
+        if (logicRatio <= realRatio) {
+            _canvasHeight = winHeight;
+            _canvasWidth = (int) ((float) _canvasHeight * logicRatio);
+            _canvasX = (winWidth - _canvasWidth) / 2;
+            _canvasY = 0;
         } else {
-            //justo al contrario, solo hay que reescalar el ancho
-            _canvasWidth = (int) ((double) _winHeight * _logicWidth / _logicHeight);
-            _canvasHeight = _logicHeight;
+            _canvasWidth = winWidth;
+            _canvasHeight = (int) ((float) _canvasWidth / logicRatio);
+            _canvasY = (winHeight - _canvasHeight) / 2;
+            _canvasX = 0;
         }
     }
 
-    /**
+    /*/**
      * Convierte coordenandas logicas (sin reescalado)
      * en coordenadas fisicas (reescaladas)
      *
      * @param logicX coordenada logica X
      * @param logicY coordenada logica Y
      */
-    public void logicToPhysic(float logicX, float logicY) {
+    /*public void logicToPhysic(float logicX, float logicY) {
         // Primero obtenemos el tamaño de la ventana
         actualWindowSize();
         // Luego se calcula el tamaño del canvas respecto a la ventana
-        calculateCanvas();
-
-        // Se necesita un offset para que las coordenadas qeuden centradas
-        float offsetX = ((_winWidth - _canvasWidth) / 2.0f);
-        float offsetY = ((_winHeight - _canvasHeight) / 2.0f);
+        calculateCanvasSize();
 
         // Por último se transforman las coordenadas
         float physicX = (logicX * (float) _canvasWidth) / (float) _logicWidth;
         float physicY = (logicY * (float) _canvasHeight) / (float) _logicHeight;
 
-        // Se asigna el resultado y se añade el offset
-        logicX = physicX + offsetX;
-        logicY = physicY + offsetY;
+        // Se asigna el resultado y se añade el offset en funcion de la posicion del canvas
+        logicX = physicX + _canvasX;
+        logicY = physicY + _canvasY;
+    }*/
+    @Override
+    public int getCanvasWidth() {
+        return _canvasWidth;
     }
 
-    /**
-     * Convierte coordenadas fisicas (reescaladas)
-     * en coordenandas logicas (sin reescalado)
-     *
-     * @param physicX coordenada fisica X
-     * @param physicY coordenada fisica Y
-     */
-    public void physicToLogic(float physicX, float physicY) {
+    @Override
+    public int getCanvasHeight() {
+        return _canvasHeight;
+    }
 
-        float logicX = (physicX * (float) _logicWidth) / (float) _canvasWidth;
-        float logicY = (physicY * (float) _logicHeight) / (float) _canvasHeight;
+    @Override
+    public int getCanvasX() {
+        return _canvasX;
+    }
 
-        physicX = logicX;
-        physicY = logicY;
+    @Override
+    public int getCanvasY() {
+        return _canvasY;
+    }
+
+    @Override
+    public int getLogicWidth() {
+        return _logicWidth;
+    }
+
+    @Override
+    public int getLogicHeight() {
+        return _logicHeight;
     }
 
     /**
      * Ancho y alto del canvas a partir del tamaño de la ventana
      */
     private int _canvasWidth, _canvasHeight;
+
     /**
-     * Ancho y alto de la ventana de la aplicacion
+     * Posicion X e Y del canvas a partir del tamaño de la ventana
      */
-    private int _winWidth, _winHeight;
+    private int _canvasX, _canvasY;
+
     /**
      * Ancho y alto reales del area de juego
      */
     private int _logicWidth = 640, _logicHeight = 480;
-    /**
-     * Ratio para reescalar el area de juego
-     */
-    private double _ratio = (double) _logicWidth / (double) _logicHeight;
 }

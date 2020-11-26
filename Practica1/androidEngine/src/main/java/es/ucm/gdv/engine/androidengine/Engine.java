@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.view.SurfaceView;
 
 import es.ucm.gdv.engine.Input;
-import es.ucm.gdv.engine.InputStream;
 import es.ucm.gdv.engine.Logic;
 
 public class Engine implements es.ucm.gdv.engine.Engine, Runnable {

@@ -55,8 +55,9 @@ public interface Graphics {
 
     /**
      * Color con el que se va a pintar en la pantalla
-     *
+     * <p>
      * Rango 0-255
+     *
      * @param a componente alfa del color
      * @param r parametro red del color
      * @param g parametro blue del color
@@ -104,12 +105,38 @@ public interface Graphics {
     int getHeight();
 
     /**
+     * Calcula el ancho y alto del canvas a partir del tamaño actual de la ventana,
+     * busca maximizar ese área
+     */
+    void calculateCanvasSize();
+
+    /**
      * Devuelve el ancho del canvas del juego
      */
-    //int getCanvasWidth();
+    int getCanvasWidth();
 
     /**
      * Devuelve el alto del canvas del juego
      */
-    //int getCanvasHeight();
+    int getCanvasHeight();
+
+    /**
+     * Devuelve la coordenada X del canvas del juego
+     */
+    int getCanvasX();
+
+    /**
+     * Devuelve la coordenada Y del canvas del juego
+     */
+    int getCanvasY();
+
+    /**
+     * Devuelve el ancho logico
+     */
+    int getLogicWidth();
+
+    /**
+     * Devuelve el alto logico
+     */
+    int getLogicHeight();
 }
