@@ -38,7 +38,7 @@ public class MyJsonReader {
                 for (int i = 0; i < paths.size(); i++) {
                     // coge posicion i del array de objetos
                     JSONObject actualPath = (JSONObject) paths.get(i);
-                    lv.getPaths().add(new Path());
+                    lv.addPath();
 
                     // cada path tiene vertices y puede tener direcciones (arrays)
                     JSONArray verts = (JSONArray) actualPath.get("vertices");
@@ -47,20 +47,20 @@ public class MyJsonReader {
                     for (int j = 0; j < verts.size(); j++) {
                         JSONObject actualVert = (JSONObject) verts.get(j);
 
-                        float x = (float) actualVert.get("x");
-                        float y = (float) actualVert.get("y");
+                        String x = String.valueOf(actualVert.get("x"));
+                        String y = String.valueOf(actualVert.get("y"));
 
-                        lv.getPaths().get(i).pushVertice(x, y);
+                        lv.getPaths().get(i).pushVertice(Float.parseFloat(x), Float.parseFloat(y));
                     }
 
                     if (dirs != null) {
                         for (int k = 0; k < dirs.size(); k++) {
                             JSONObject actualDir = (JSONObject) dirs.get(k);
 
-                            int x = (int) actualDir.get("x");
-                            int y = (int) actualDir.get("y");
+                            long x = (long) actualDir.get("x");
+                            long y = (long) actualDir.get("y");
 
-                            lv.getPaths().get(i).pushDirection(x, y);
+                            lv.getPaths().get(i).pushDirection((int) x, (int) y);
                         }
                     }
                 }
@@ -70,13 +70,19 @@ public class MyJsonReader {
             if (items != null) {
                 for (int i = 0; i < items.size(); i++) {
                     JSONObject actualItem = (JSONObject) items.get(i);
-                    float x = (float) actualItem.get("x");
-                    float y = (float) actualItem.get("y");
-                    float radius = (float) actualItem.get("radius");
-                    float speed = (float) actualItem.get("speed");
-                    float angle = (float) actualItem.get("angle");
+                    long x = (long) actualItem.get("x");
+                    long y = (long) actualItem.get("y");
 
-                    lv.getItems().add(new Item(x, y, radius, speed, angle));
+                    long radius = 0, speed = 0, angle = 0;
+
+                    if (actualItem.get("radius") != null)
+                        radius = (long) actualItem.get("radius");
+                    if (actualItem.get("speed") != null)
+                        speed = (long) actualItem.get("speed");
+                    if (actualItem.get("angle") != null)
+                        angle = (long) actualItem.get("angle");
+
+                    lv.getItems().add(new Item(x, y, 8.0f, 8.0f, radius, speed, angle));
                 }
             }
 
@@ -85,36 +91,36 @@ public class MyJsonReader {
                 for (int i = 0; i < enemies.size(); i++) {
                     JSONObject actualEnemy = (JSONObject) enemies.get(i);
 
-                    float x = (float) actualEnemy.get("x");
-                    float y = (float) actualEnemy.get("y");
-                    float length = (float) actualEnemy.get("length");
-                    float angle = (float) actualEnemy.get("angle");
+                    long x = (long) actualEnemy.get("x");
+                    long y = (long) actualEnemy.get("y");
+                    long length = (long) actualEnemy.get("length");
+                    long angle = (long) actualEnemy.get("angle");
 
-                    float speed = 0, time1 = 0, time2 = 0, offX = 0, offY = 0;
+                    long speed = 0, offX = 0, offY = 0;
+                    String time1 = "0", time2 = "0";
 
                     if (actualEnemy.get("speed") != null)
-                        speed = (float) actualEnemy.get("speed");
+                        speed = (long) actualEnemy.get("speed");
 
                     if (actualEnemy.get("time1") != null)
-                        time1 = (float) actualEnemy.get("time1");
+                        time1 = String.valueOf(actualEnemy.get("time1"));
 
                     if (actualEnemy.get("time2") != null)
-                        time2 = (float) actualEnemy.get("time2");
+                        time2 = String.valueOf(actualEnemy.get("time2"));
 
 
                     JSONObject offset = (JSONObject) actualEnemy.get("offset");
                     if (offset != null) {
-                        offX = (float) offset.get("x");
-                        offY = (float) offset.get("y");
+                        offX = (long) offset.get("x");
+                        offY = (long) offset.get("y");
                     }
 
-                    lv.getEnemies().add(new Enemy(x, y, length, angle, speed, time1, time2, offX, offY));
+                    lv.getEnemies().add(new Enemy(x, y, length, angle, speed, Float.parseFloat(time1), Float.parseFloat(time2), offX, offY));
                 }
             }
 
-            int time = (int) level.get("time");
-            if (time > 0) {
-                lv.setTime(time);
+            if (level.get("time") != null) {
+                lv.setTime(Integer.parseInt((String) level.get("time")));
             }
 
             is.close();

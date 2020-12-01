@@ -73,7 +73,7 @@ public interface Graphics {
      * @param x2 posicion Y del segundo extremo del segmento
      * @param y2 posicion Y del segundo extremo del segmento
      */
-    void drawLine(int x1, int y1, int x2, int y2);
+    void drawLine(float x1, float y1, float x2, float y2);
 
     /**
      * Dibuja un rectangulo relleno
@@ -129,6 +129,11 @@ public interface Graphics {
      * Devuelve la coordenada Y del canvas del juego
      */
     int getCanvasY();
+
+    /**
+     * Devuelve el factor de escala calculado a partir del tamaño de la ventana
+     */
+    float getCanvasScale();
 
     /**
      * Devuelve el ancho logico

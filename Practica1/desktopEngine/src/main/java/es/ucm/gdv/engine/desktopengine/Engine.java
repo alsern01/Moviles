@@ -101,13 +101,13 @@ public class Engine implements es.ucm.gdv.engine.Engine {
             _logic.update(elapsedTime);
 
             // Informe de FPS
-            if (currentTime - informePrevio > 1000000000l) {
+            /*if (currentTime - informePrevio > 1000000000l) {
                 long fps = frames * 1000000000l / (currentTime - informePrevio);
                 System.out.println("" + fps + " fps");
                 frames = 0;
                 informePrevio = currentTime;
             }
-            ++frames;
+            ++frames;*/
 
             // Pintamos el frame con el BufferStrategy
             do {

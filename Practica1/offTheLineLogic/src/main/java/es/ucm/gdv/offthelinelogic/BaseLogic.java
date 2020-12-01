@@ -8,35 +8,31 @@ public class BaseLogic implements es.ucm.gdv.engine.Logic {
     @Override
     public boolean init(Engine app) {
         _app = app;
-        _lvlLoader = new LoadLevel(app, 1);
+        _lvlLoader = new LoadLevel(app, 4);
 
         System.out.println(_lvlLoader.getName());
 
         _graphics = _app.getGraphics();
         _input = _app.getInput();
-        _graphics.calculateCanvasSize();
+
+        _player = new Player(_lvlLoader.getPaths().get(0).getVerts().get(0).getX() - 6, _lvlLoader.getPaths().get(0).getVerts().get(0).getY() - 6,
+                12, 12, 250, _lvlLoader.getPaths());
+
         return true;
     }
 
     @Override
     public void update(double deltaTime) {
-        int maxX = _graphics.getCanvasWidth() - 300; // 300 : longitud estimada en píxeles del rótulo
 
-        _x += _incX * deltaTime;
-        System.out.println("" + _x);
+        for (int i = 0; i < _lvlLoader.getItems().size(); i++) {
+            _lvlLoader.getItems().get(i).update(deltaTime);
+        }
 
-        while (_x < 0 || _x > maxX) {
-            // Vamos a pintar fuera de la pantalla. Rectificamos.
-            if (_x < 0) {
-                // Nos salimos por la izquierda. Rebotamos.
-                _x = -_x;
-                _incX *= -1;
-            } else if (_x > maxX) {
-                // Nos salimos por la derecha. Rebotamos
-                _x = 2 * maxX - _x;
-                _incX *= -1;
-            }
-        } // while
+        for (int i = 0; i < _lvlLoader.getEnemies().size(); i++) {
+            _lvlLoader.getEnemies().get(i).update(deltaTime);
+        }
+
+        _player.update(deltaTime);
     }
 
     @Override
@@ -45,18 +41,25 @@ public class BaseLogic implements es.ucm.gdv.engine.Logic {
         _graphics.clear(255, 0, 0, 0);
 
         _graphics.calculateCanvasSize();
-        float scaleX = (float) _graphics.getCanvasWidth() / (float) _graphics.getLogicWidth(),
-                scaleY = (float) _graphics.getCanvasHeight() / (float) _graphics.getLogicHeight();
-        _graphics.translate(_graphics.getCanvasX(), _graphics.getCanvasY());
-        _graphics.scale(scaleX, scaleY);
+        float scale = _graphics.getCanvasScale();
 
-        _graphics.save();
-        // escribe un texto
-        _graphics.setColor(255, 255, 255, 255);
-        _graphics.drawText("RENDERIZADO ACTIVO", (int) _x, (int) (_graphics.getCanvasHeight() / (2 * scaleY)));
-        _graphics.setColor(255, 255, 0, 0);
-        _graphics.drawLine(0, 400, 200, 400);
-        _graphics.restore();
+        _graphics.translate(_graphics.getWidth() / 2, _graphics.getHeight() / 2);
+        _graphics.scale(scale, scale);
+
+        for (int i = 0; i < _lvlLoader.getPaths().size(); i++) {
+            _lvlLoader.getPaths().get(i).render(_graphics);
+        }
+
+        for (int i = 0; i < _lvlLoader.getEnemies().size(); i++) {
+            _lvlLoader.getEnemies().get(i).render(_graphics);
+        }
+
+        for (int i = 0; i < _lvlLoader.getItems().size(); i++) {
+            _lvlLoader.getItems().get(i).render(_graphics);
+        }
+
+        _player.render(_graphics);
+
     }
 
     private Engine _app;
@@ -67,15 +70,6 @@ public class BaseLogic implements es.ucm.gdv.engine.Logic {
     // Cargador de niveles
     private LoadLevel _lvlLoader;
 
-    /**
-     * Posición x actual del texto (lado izquierdo). Es importante
-     * que sea un número real, para acumular cambios por debajo del píxel si
-     * la velocidad de actualización es mayor que la del desplazamiento.
-     */
-    protected double _x = 0;
-
-    /**
-     * Velocidad de desplazamiento en píxeles por segundo.
-     */
-    protected int _incX = 50;
+    // Entidad del jugador
+    Player _player;
 }

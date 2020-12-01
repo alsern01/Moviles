@@ -70,7 +70,7 @@ public class Graphics extends es.ucm.gdv.engine.AbstractGraphics {
 
     @Override
     public void rotate(float angle) {
-        _g.rotate(angle);
+        _g.rotate(Math.toRadians(angle));
     }
 
     @Override
@@ -84,8 +84,8 @@ public class Graphics extends es.ucm.gdv.engine.AbstractGraphics {
     }
 
     @Override
-    public void drawLine(int x1, int y1, int x2, int y2) {
-        _g.drawLine(x1, y1, x2, y2);
+    public void drawLine(float x1, float y1, float x2, float y2) {
+        _g.drawLine((int) x1, (int) y1, (int) x2, (int) y2);
     }
 
     @Override
@@ -111,8 +111,15 @@ public class Graphics extends es.ucm.gdv.engine.AbstractGraphics {
         return _window.getHeight();
     }
 
+    @Override
+    public int getCanvasY() {
+        return _canvasY + _desktopTaskBar;
+    }
+
     private java.awt.Graphics2D _g;
     private JFrame _window;
     private Font _font;
     private AffineTransform _copy;
+
+    private int _desktopTaskBar = 100;
 }

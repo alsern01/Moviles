@@ -18,43 +18,26 @@ public abstract class AbstractGraphics implements Graphics {
         int winWidth = getWidth();
         int winHeight = getHeight();
 
-        float logicRatio = (float) _logicWidth / (float) _logicHeight;
-        float realRatio = (float) winWidth / (float) winHeight;
+        float wScale = (float) winWidth / (float) _logicWidth;
+        float hScale = (float) winHeight / (float) _logicHeight;
 
-        if (logicRatio <= realRatio) {
-            _canvasHeight = winHeight;
-            _canvasWidth = (int) ((float) _canvasHeight * logicRatio);
-            _canvasX = (winWidth - _canvasWidth) / 2;
-            _canvasY = 0;
-        } else {
+        if (wScale < hScale) {
+            _scale = wScale;
             _canvasWidth = winWidth;
-            _canvasHeight = (int) ((float) _canvasWidth / logicRatio);
+            _canvasHeight = (winWidth * _logicHeight) / _logicWidth;
+
             _canvasY = (winHeight - _canvasHeight) / 2;
             _canvasX = 0;
+        } else {
+            _scale = hScale;
+            _canvasHeight = winHeight;
+            _canvasWidth = (winHeight * _logicWidth) / _logicHeight;
+
+            _canvasX = (winWidth - _canvasWidth) / 2;
+            _canvasY = 0;
         }
     }
 
-    /*/**
-     * Convierte coordenandas logicas (sin reescalado)
-     * en coordenadas fisicas (reescaladas)
-     *
-     * @param logicX coordenada logica X
-     * @param logicY coordenada logica Y
-     */
-    /*public void logicToPhysic(float logicX, float logicY) {
-        // Primero obtenemos el tamaño de la ventana
-        actualWindowSize();
-        // Luego se calcula el tamaño del canvas respecto a la ventana
-        calculateCanvasSize();
-
-        // Por último se transforman las coordenadas
-        float physicX = (logicX * (float) _canvasWidth) / (float) _logicWidth;
-        float physicY = (logicY * (float) _canvasHeight) / (float) _logicHeight;
-
-        // Se asigna el resultado y se añade el offset en funcion de la posicion del canvas
-        logicX = physicX + _canvasX;
-        logicY = physicY + _canvasY;
-    }*/
     @Override
     public int getCanvasWidth() {
         return _canvasWidth;
@@ -85,6 +68,16 @@ public abstract class AbstractGraphics implements Graphics {
         return _logicHeight;
     }
 
+    @Override
+    public float getCanvasScale() {
+        return _scale;
+    }
+
+    /**
+     * Escala de la pantalla
+     */
+    private float _scale;
+
     /**
      * Ancho y alto del canvas a partir del tamaño de la ventana
      */
@@ -93,7 +86,7 @@ public abstract class AbstractGraphics implements Graphics {
     /**
      * Posicion X e Y del canvas a partir del tamaño de la ventana
      */
-    private int _canvasX, _canvasY;
+    protected int _canvasX, _canvasY;
 
     /**
      * Ancho y alto reales del area de juego
