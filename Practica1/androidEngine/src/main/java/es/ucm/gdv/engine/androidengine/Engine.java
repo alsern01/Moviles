@@ -4,7 +4,8 @@ import android.content.res.AssetManager;
 import android.graphics.Canvas;
 import android.view.SurfaceView;
 
-import es.ucm.gdv.engine.Input;
+import java.io.InputStream;
+
 import es.ucm.gdv.engine.Logic;
 
 public class Engine implements es.ucm.gdv.engine.Engine, Runnable {
@@ -18,8 +19,8 @@ public class Engine implements es.ucm.gdv.engine.Engine, Runnable {
     public boolean init(Logic logic) {
         _graphics = new Graphics(_assetManager, _surfaceView);
 
-        //_input = new Input();
-        //_surfaceView.setOnTouchListener(_input);
+        _input = new Input(_graphics);
+        _surfaceView.setOnTouchListener(_input);
 
         return true;
     }
@@ -67,22 +68,28 @@ public class Engine implements es.ucm.gdv.engine.Engine, Runnable {
             long nanoElapsedTime = currentTime - lastFrameTime;
             lastFrameTime = currentTime;
             double elapsedTime = (double) nanoElapsedTime / 1.0E9;
-            //update(elapsedTime);
+
+            // Update de la logica con el deltaTime calculado
+            _logic.update(elapsedTime);
+
             // Informe de FPS
-            if (currentTime - informePrevio > 1000000000l) {
+            /*if (currentTime - informePrevio > 1000000000l) {
                 long fps = frames * 1000000000l / (currentTime - informePrevio);
                 System.out.println("" + fps + " fps");
                 frames = 0;
                 informePrevio = currentTime;
             }
             ++frames;
+            */
 
             // Pintamos el frame
             while (!_surfaceView.getHolder().getSurface().isValid())
                 ;
             Canvas canvas = _surfaceView.getHolder().lockCanvas();
             _graphics.setCanvas(canvas);
-            //render(canvas);
+            // Render de la logica
+            _logic.render();
+
             _surfaceView.getHolder().unlockCanvasAndPost(canvas);
                 /*
                 // Posibilidad: cedemos algo de tiempo. es una medida conflictiva...

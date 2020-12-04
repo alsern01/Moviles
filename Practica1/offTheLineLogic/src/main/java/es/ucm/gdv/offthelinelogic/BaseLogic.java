@@ -8,7 +8,7 @@ public class BaseLogic implements es.ucm.gdv.engine.Logic {
     @Override
     public boolean init(Engine app) {
         _app = app;
-        _lvlLoader = new LoadLevel(app, 4);
+        _lvlLoader = new LoadLevel(app, 6);
 
         System.out.println(_lvlLoader.getName());
 
@@ -60,6 +60,12 @@ public class BaseLogic implements es.ucm.gdv.engine.Logic {
 
         _player.render(_graphics);
 
+    }
+
+    @Override
+    public void handleInput(Input input) {
+
+        input.clearTouchEvents();
     }
 
     private Engine _app;

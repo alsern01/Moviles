@@ -17,6 +17,9 @@ public class LoadLevel {
         _items = new ArrayList<>();
 
         _jsonReader.parseLevel(nLevel, this);
+
+        for (Path p : _paths)
+            p.buildSegments();
     }
 
     public void addPath() {

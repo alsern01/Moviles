@@ -70,7 +70,7 @@ public class Graphics extends es.ucm.gdv.engine.AbstractGraphics {
 
     @Override
     public void rotate(float angle) {
-        _g.rotate(Math.toRadians(angle));
+        _g.rotate(Math.toRadians(-angle));
     }
 
     @Override

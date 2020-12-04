@@ -24,4 +24,10 @@ public interface Logic {
      * Función que actualiza los elementos gráficos de la aplicación
      */
     public void render();
+
+    /**
+     * Función que detecta si ha habido input y lo gestiona en funcion
+     * del evento recibido
+     */
+    public void handleInput(Input input);
 }

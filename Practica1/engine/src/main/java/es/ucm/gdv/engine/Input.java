@@ -1,6 +1,6 @@
 package es.ucm.gdv.engine;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface Input {
     /**
@@ -53,7 +53,7 @@ public interface Input {
             return _id;
         }
 
-        public TouchEventType _type;
+        private TouchEventType _type;
         private int _x, _y;
         private int _id;
     }
@@ -61,7 +61,7 @@ public interface Input {
     /**
      * Devuelve la lista de todos los eventos de pulsacion
      */
-    public ArrayList<TouchEvent> getTouchEvents();
+    public List<TouchEvent> getTouchEvents();
 
     /**
      * Crea un evento de pulsacion

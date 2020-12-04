@@ -5,7 +5,6 @@ import es.ucm.gdv.engine.Graphics;
 public class Entity {
     public Entity(float x, float y, float w, float h, float speed) {
         _x = x;
-        _y = y;
         _w = w;
         _h = h;
         _speed = speed;

@@ -1,14 +1,11 @@
 package es.ucm.gdv.engine.desktopengine;
 
-/*estos hacen falta de momento para que no explote*/
-
 import java.awt.image.BufferStrategy;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
 import javax.swing.JFrame;
 
-import es.ucm.gdv.engine.Input;
 import es.ucm.gdv.engine.Logic;
 
 public class Engine implements es.ucm.gdv.engine.Engine {
@@ -36,9 +33,8 @@ public class Engine implements es.ucm.gdv.engine.Engine {
 
             _graphics = new Graphics(_window);
 
-            //_input = new Input();
-            //_inputStream = new es.ucm.gdv.engine.desktopengine.InputStream();
-            //_window.addMouseListener(_input);
+            _input = new Input(_graphics);
+            _window.addMouseListener(_input);
 
             return true;
 
@@ -99,6 +95,7 @@ public class Engine implements es.ucm.gdv.engine.Engine {
 
             // Update de la logica con el deltaTime calculado
             _logic.update(elapsedTime);
+            _logic.handleInput(_input);
 
             // Informe de FPS
             /*if (currentTime - informePrevio > 1000000000l) {
