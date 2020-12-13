@@ -2,31 +2,31 @@ package es.ucm.gdv.offthelinelogic;
 
 public class Point {
     public Point(float x, float y) {
-        _x = x;
-        _y = y;
+        this.x = x;
+        this.y = y;
     }
 
     public float getX() {
-        return _x;
+        return x;
     }
 
     public float getY() {
-        return _y;
+        return y;
     }
 
     public void setX(float x) {
-        _x = x;
+        this.x = x;
     }
 
     public void setY(float y) {
-        _y = y;
+        this.y = y;
     }
 
     public void normalize() {
-        float magnitude = (float) Math.sqrt(_x * _x + _y * _y);
-        _x = _x / magnitude;
-        _y = _y / magnitude;
+        float magnitude = (float) Math.sqrt(x * x + y * y);
+        x = x / magnitude;
+        y = y / magnitude;
     }
 
-    private float _x, _y;
+    public float x, y;
 }

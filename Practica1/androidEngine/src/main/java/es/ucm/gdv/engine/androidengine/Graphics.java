@@ -76,7 +76,7 @@ public class Graphics extends es.ucm.gdv.engine.AbstractGraphics {
     }
 
     @Override
-    public void drawLine(int x1, int y1, int x2, int y2) {
+    public void drawLine(float x1, float y1, float x2, float y2) {
         _c.drawLine(x1, y1, x2, y2, _paint);
     }
 
@@ -105,5 +105,5 @@ public class Graphics extends es.ucm.gdv.engine.AbstractGraphics {
     private AssetManager _assetManager;
     private Canvas _c;
     private SurfaceView _surfaceView;
-    Font _font;
+    private Font _font;
 }

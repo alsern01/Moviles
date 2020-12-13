@@ -18,9 +18,11 @@ public class Engine implements es.ucm.gdv.engine.Engine, Runnable {
     @Override
     public boolean init(Logic logic) {
         _graphics = new Graphics(_assetManager, _surfaceView);
+        _graphics.init();
 
         _input = new Input(_graphics);
         _surfaceView.setOnTouchListener(_input);
+        _logic = logic;
 
         return true;
     }
@@ -37,6 +39,12 @@ public class Engine implements es.ucm.gdv.engine.Engine, Runnable {
 
     @Override
     public InputStream openInputStream(String filename) {
+        try {
+            _inputStream = _assetManager.open(filename);
+        } catch (Exception e) {
+            System.err.println("Error cargando el archivo: " + e);
+            return null;
+        }
         return _inputStream;
     }
 
@@ -71,6 +79,7 @@ public class Engine implements es.ucm.gdv.engine.Engine, Runnable {
 
             // Update de la logica con el deltaTime calculado
             _logic.update(elapsedTime);
+            _logic.handleInput(_input);
 
             // Informe de FPS
             /*if (currentTime - informePrevio > 1000000000l) {

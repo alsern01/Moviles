@@ -8,7 +8,7 @@ public class Main {
     public static void main(String[] args) {
 
         // Se crea el juego y el estado del juego
-        Engine game = new Engine(1920, 720);
+        Engine game = new Engine(640, 480);
         BaseLogic logic = new BaseLogic();
         // estado logico
 

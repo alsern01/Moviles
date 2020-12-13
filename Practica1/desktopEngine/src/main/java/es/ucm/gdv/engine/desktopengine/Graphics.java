@@ -70,7 +70,7 @@ public class Graphics extends es.ucm.gdv.engine.AbstractGraphics {
 
     @Override
     public void rotate(float angle) {
-        _g.rotate(Math.toRadians(-angle));
+        _g.rotate(Math.toRadians(angle));
     }
 
     @Override
@@ -95,9 +95,8 @@ public class Graphics extends es.ucm.gdv.engine.AbstractGraphics {
 
     @Override
     public void drawText(String text, int x, int y) {
-        _font = newFont("assets/Fuentes/Bangers-Regular.ttf", 40, true);
+        _font = newFont("BungeeHairline-Regular.ttf", 15, true);
         _g.setFont(_font.getFont());
-
         _g.drawString(text, x, y);
     }
 

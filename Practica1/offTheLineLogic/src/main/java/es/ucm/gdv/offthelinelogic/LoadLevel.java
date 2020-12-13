@@ -18,8 +18,16 @@ public class LoadLevel {
 
         _jsonReader.parseLevel(nLevel, this);
 
-        for (Path p : _paths)
+        buildPaths();
+    }
+
+    public void buildPaths() {
+        int i = 0;
+        for (Path p : _paths) {
             p.buildSegments();
+            System.out.println(p.getSegments().size());
+            i++;
+        }
     }
 
     public void addPath() {
@@ -48,6 +56,10 @@ public class LoadLevel {
 
     public String getName() {
         return _name;
+    }
+
+    public MyJsonReader getParser() {
+        return _jsonReader;
     }
 
     private MyJsonReader _jsonReader;

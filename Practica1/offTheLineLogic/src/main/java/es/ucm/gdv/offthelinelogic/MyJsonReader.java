@@ -57,10 +57,10 @@ public class MyJsonReader {
                         for (int k = 0; k < dirs.size(); k++) {
                             JSONObject actualDir = (JSONObject) dirs.get(k);
 
-                            long x = (long) actualDir.get("x");
-                            long y = (long) actualDir.get("y");
+                            String x = String.valueOf(actualDir.get("x"));
+                            String y = String.valueOf(actualDir.get("y"));
 
-                            lv.getPaths().get(i).pushDirection((int) x, (int) y);
+                            lv.getPaths().get(i).pushDirection(Float.parseFloat(x), Float.parseFloat(y));
                         }
                     }
                 }
@@ -82,7 +82,7 @@ public class MyJsonReader {
                     if (actualItem.get("angle") != null)
                         angle = (long) actualItem.get("angle");
 
-                    lv.getItems().add(new Item(x, y, 8.0f, 8.0f, radius, speed, angle));
+                    lv.getItems().add(new Item(x, y, 4f, radius, speed, angle));
                 }
             }
 

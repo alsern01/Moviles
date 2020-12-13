@@ -5,8 +5,8 @@ import android.view.SurfaceView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import es.ucm.gdv.engine.Logic;
 import es.ucm.gdv.engine.androidengine.Engine;
+import es.ucm.gdv.offthelinelogic.BaseLogic;
 
 /**
  * Prueba de concepto de renderizado activo en Android.
@@ -40,7 +40,15 @@ public class MainActivity extends AppCompatActivity {
 
         // Preparamos el contenido de la actividad.
         _renderView = new SurfaceView(this);
-        setContentView(_renderView);
+
+        _engine = new Engine(_renderView, getAssets());//creación del motor
+        _logic = new BaseLogic();//creación de la lógica
+
+        // Iniciar ambos modulos y si algo falla cerrar el programa
+        if (!_engine.init(_logic)) return;
+        if (!_logic.init(_engine)) return;
+
+        setContentView(_renderView);//asignar el content view al surface view del motor
 
     } // onCreate
 
@@ -62,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         // Avisamos a la vista (que es la encargada del active render)
         // de lo que está pasando.
         super.onResume();
+        _engine.resume();
 
     } // onResume
 
@@ -79,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
         // Avisamos a la vista (que es la encargada del active render)
         // de lo que está pasando.
         super.onPause();
+        _engine.pause();
 
     } // onPause
 
@@ -88,6 +98,6 @@ public class MainActivity extends AppCompatActivity {
      */
     protected SurfaceView _renderView;
     private Engine _engine;
-    private Logic _logic;
+    private BaseLogic _logic;
 
 } // class MainActivity

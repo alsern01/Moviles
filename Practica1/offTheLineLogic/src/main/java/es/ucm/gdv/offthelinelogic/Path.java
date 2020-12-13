@@ -31,60 +31,38 @@ class Path {
         _verts.add(new Point(x, y));
     }
 
-    public void pushDirection(int x, int y) {
-        _dirs.add(new Direction(x, y));
+    public void pushDirection(float x, float y) {
+        _dirs.add(new Point(x, y));
     }
 
     public void buildSegments() {
-        for (int i = 0; i < _verts.size(); i++) {
-            if (i + 1 == _verts.size()) {
-                _segments.add(new Segment(_verts.get(i).getX(), _verts.get(i).getY(), _verts.get(0).getX(), _verts.get(0).getY()));
-            } else {
-                _segments.add(new Segment(_verts.get(i).getX(), _verts.get(i).getY(), _verts.get(i + 1).getX(), _verts.get(i + 1).getY()));
+        if (_segments.size() <= 0) {
+            for (int i = 0; i < _verts.size(); i++) {
+                if (i != _verts.size() - 1) {
+                    _segments.add(new LevelSegment(_verts.get(i).getX(), _verts.get(i).getY(), _verts.get(i + 1).getX(), _verts.get(i + 1).getY()));
+                } else {
+                    _segments.add(new LevelSegment(_verts.get(i).getX(), _verts.get(i).getY(), _verts.get(0).getX(), _verts.get(0).getY()));
+                }
+                if (_dirs.size() > 0) {
+                    _segments.get(i).setDir(_dirs.get(i));
+                }
             }
         }
-
-        System.out.println(_segments.size());
     }
 
     public ArrayList<Point> getVerts() {
         return _verts;
     }
 
-    public ArrayList<Direction> getDirs() {
+    public ArrayList<Point> getDirs() {
         return _dirs;
     }
 
-    public ArrayList<Segment> getSegments() {
+    public ArrayList<LevelSegment> getSegments() {
         return _segments;
     }
 
     private ArrayList<Point> _verts;
-    private ArrayList<Direction> _dirs;
-    private ArrayList<Segment> _segments;
-}
-
-class Direction {
-    Direction(int x, int y) {
-        _x = x;
-        _y = y;
-    }
-
-    public int getX() {
-        return _x;
-    }
-
-    public int getY() {
-        return _y;
-    }
-
-    public void setX(int x) {
-        _x = x;
-    }
-
-    public void setY(int y) {
-        _y = y;
-    }
-
-    private int _x, _y;
+    private ArrayList<Point> _dirs;
+    private ArrayList<LevelSegment> _segments;
 }
