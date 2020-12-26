@@ -18,7 +18,7 @@ public class Map
         return 0;
     }
 
-    public Map FroJson(string json)
+    public Map FromJson(string json)
     {
         return null;
     }
